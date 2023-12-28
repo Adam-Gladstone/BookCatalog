@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="BookCatalog.Views.CatalogPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dx="using:DevExpress.WinUI.Core"
+    xmlns:dxg="using:DevExpress.WinUI.Grid"
+    xmlns:dxi="using:DevExpress.WinUI.Core.Internal"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="using:System"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries />
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid x:Name="ContentArea">
+
+        <dxg:GridControl
+            x:Name="gridControl"
+            AlternationCount="2"
+            AutoGenerateColumns="False"
+            AutoWidth="True"
+            DoubleTapped="GridControl_DoubleTapped"
+            ItemsSource="{x:Bind ViewModel.Collection}"
+            SelectedItem="{x:Bind ViewModel.SelectedBookItem, Mode=TwoWay}"
+            ShowGroupedColumns="True"
+            ShowSearchPanelMode="Always">
+
+            <dxg:GridControl.Columns>
+                <dxg:GridTextColumn
+                    Width="50"
+                    AllowFiltering="True"
+                    FieldName="Category"
+                    GroupIndex="0" />
+                <dxg:GridTextColumn 
+                    AllowFiltering="True" 
+                    FieldName="Title" />
+            </dxg:GridControl.Columns>
+
+        </dxg:GridControl>
+
+    </Grid>
+</Page>
