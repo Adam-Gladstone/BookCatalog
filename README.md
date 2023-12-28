@@ -106,19 +106,19 @@ The solution consists of three projects:
 Build and start the application for the first time. You will be presented with an empty screen. 
 
 <a href="https://github.com/Adam-Gladstone/BookCatalog">
-  <img src="BookCatalog/Images/EmptyCatalog.png" alt="Initial Empty Catalog (BookCatalog)">
+  <img src="Images/EmptyCatalog.png" alt="Initial Empty Catalog (BookCatalog)">
 </a>
 
 Expand the hamburger menu on the left-hand side, and press the Catalog item, then press 'Add'. The Open File Dialog is displayed. Navigate to the directory where the books are located. It is useful if they are organised by category as this can be used for grouping. Otherwise the titles are presented in a simple list. Select all the files to be added and press 'OK'. Wait a few seconds while the titles are being added to the database, then you are presented with a list.
 
 <a href="https://github.com/Adam-Gladstone/BookCatalog">
-  <img src="BookCatalog/Images/UngroupedSearch.png" alt="Ungrouped Search (BookCatalog)">
+  <img src="Images/UngroupedSearch.png" alt="Ungrouped Search (BookCatalog)">
 </a>
 
 You can use the header to group, sort and filter in the usual way.
 
 <a href="https://github.com/Adam-Gladstone/BookCatalog">
-  <img src="BookCatalog/Images/GroupedSearch.png" alt="Grouped Search (BookCatalog)">
+  <img src="Images/GroupedSearch.png" alt="Grouped Search (BookCatalog)">
 </a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
