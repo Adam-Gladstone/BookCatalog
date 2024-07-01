@@ -39,23 +39,19 @@
             IsBackButtonVisible="Visible"
             IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
             IsSettingsVisible="True"
-            SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
-            SelectionChanged="NavigationViewControl_SelectionChanged">
+            SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}">
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Catalog" Tag="Catalog" Icon="Home" ToolTipService.ToolTip="Catalog">
-                    <NavigationViewItem.MenuItems>
-                        <NavigationViewItem
-                            Content="Add"
-                            Icon="Add"
-                            Tag="Add"
-                            ToolTipService.ToolTip="Add" />
-                        <NavigationViewItem
-                            Content="Delete"
-                            Icon="Delete"
-                            Tag="Delete"
-                            ToolTipService.ToolTip="Delete" />
-                    </NavigationViewItem.MenuItems>
+
+                <!-- Book Catalog -->
+                <NavigationViewItem
+                    x:Uid="Shell_BookCatalog"
+                    helpers:NavigationHelper.NavigateTo="BookCatalog.ViewModels.BookCatalogViewModel"
+                    Tag="BookCatalog.Views.BookCatalogPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe8f1;" />
+                    </NavigationViewItem.Icon>
                 </NavigationViewItem>
+
             </NavigationView.MenuItems>
 
             <NavigationView.HeaderTemplate>

@@ -67,7 +67,7 @@ public class SqliteDataService : IDataService
         return connection;
     }
 
-    private async Task CreateBookItemTableAsync(SqliteConnection db)
+    private static async Task CreateBookItemTableAsync(SqliteConnection db)
     {
         var tableCommand = @"CREATE TABLE IF NOT 
                 EXISTS BookItems (Id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -82,7 +82,7 @@ public class SqliteDataService : IDataService
         await createTable.ExecuteNonQueryAsync();
     }
 
-    private async Task<List<BookItem>> GetAllBookItemsAsync(SqliteConnection db)
+    private static async Task<List<BookItem>> GetAllBookItemsAsync(SqliteConnection db)
     {
         var itemsResult = await db.QueryAsync<BookItem>
                         (
@@ -99,7 +99,7 @@ public class SqliteDataService : IDataService
         return itemsResult.ToList();
     }
 
-    private async Task<int> InsertBookItemAsync(SqliteConnection db, BookItem item)
+    private static async Task<int> InsertBookItemAsync(SqliteConnection db, BookItem item)
     {
         var newIds = await db.QueryAsync<long>(
             @"INSERT INTO BookItems
@@ -111,7 +111,7 @@ public class SqliteDataService : IDataService
         return (int)newIds.First();
     }
 
-    private async Task UpdateBookItemAsync(SqliteConnection db, BookItem item)
+    private static async Task UpdateBookItemAsync(SqliteConnection db, BookItem item)
     {
         await db.QueryAsync(
             @"UPDATE BookItems
@@ -122,7 +122,7 @@ public class SqliteDataService : IDataService
                   WHERE Id = @Id;", item);
     }
 
-    private async Task<bool> DeleteBookItemAsync(SqliteConnection db, int id)
+    private static async Task<bool> DeleteBookItemAsync(SqliteConnection db, int id)
     {
         // This will look in the table BookItems
         return await db.DeleteAsync<BookItem>(new BookItem { Id = id });

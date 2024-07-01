@@ -14,8 +14,8 @@ public class PageService : IPageService
 
     public PageService()
     {
-        Configure<CatalogViewModel, CatalogPage>();
         Configure<SettingsViewModel, SettingsPage>();
+        Configure<BookCatalogViewModel, BookCatalogPage>();
     }
 
     public Type GetPageType(string key)

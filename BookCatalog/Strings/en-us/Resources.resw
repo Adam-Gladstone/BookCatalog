@@ -123,9 +123,6 @@
   <data name="AppDescription" xml:space="preserve">
     <value>Book Catalog</value>
   </data>
-  <data name="Shell_Catalog.Content" xml:space="preserve">
-    <value>Catalog</value>
-  </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
     <value>Personalization</value>
   </data>
@@ -152,5 +149,8 @@
   </data>
   <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://YourPrivacyUrlGoesHere/</value>
+  </data>
+  <data name="Shell_BookCatalog.Content" xml:space="preserve">
+    <value>Book Catalog</value>
   </data>
 </root>

@@ -1,46 +1,53 @@
-﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using BookCatalog.Contracts.ViewModels;
 using BookCatalog.Core.Contracts.Services;
 using BookCatalog.Core.Models;
-
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Windows.Storage;
 
 namespace BookCatalog.ViewModels;
 
-public partial class CatalogViewModel : ObservableRecipient, INavigationAware
+public partial class BookCatalogViewModel : ObservableRecipient, INavigationAware
 {
     private readonly IDataService _dataService;
 
     [ObservableProperty]
-    private ObservableCollection<BookItem> collection = new();
+    private string filter = "";
 
-    [ObservableProperty]
-    private BookItem selectedBookItem = new();
+    private BookItem? current;
 
-    public CatalogViewModel(IDataService dataService)
+    public BookItem? Current
+    {
+        get => current;
+        set
+        {
+            SetProperty(ref current, value);
+            OnPropertyChanged(nameof(HasCurrent));
+        }
+    }
+
+    public bool HasCurrent => current is not null;
+
+    public BookCatalogViewModel(IDataService dataService)
     {
         _dataService = dataService;
 
         _dataService.InitializeDataAsync();
     }
 
-    public async void OnNavigatedTo(object parameter)
+    public async Task<List<BookItem>> GetDataAsync()
     {
-        Collection.Clear();
+        return (List<BookItem>)await _dataService.GetItemsAsync();
+    }
 
-        var items = await _dataService.GetItemsAsync();
+    public void OnNavigatedTo(object parameter)
+    {
 
-        foreach (var item in items)
-        {
-            Collection.Add(item);
-        }
     }
 
     public void OnNavigatedFrom()
     {
+        // Run code when the app navigates away from this page
     }
 
     public void AddBookItems(IReadOnlyList<StorageFile> files)
@@ -75,16 +82,16 @@ public partial class CatalogViewModel : ObservableRecipient, INavigationAware
         }
         else
         {
-            // 
+            Debug.WriteLine($"The referenced file ({filename}) does not exist in this location.");
         }
     }
 
     public void DeleteBookItem()
     {
-        if (SelectedBookItem != null)
+        if (Current != null)
         {
-            var id = _dataService.DeleteItemAsync(SelectedBookItem).Result;
-            Debug.WriteLine($"Deleted item \'{SelectedBookItem.Title}\' with id:{id}");
+            var id = _dataService.DeleteItemAsync(Current).Result;
+            Debug.WriteLine($"Deleted item \'{Current.Title}\' with id:{id}");
         }
     }
 
@@ -97,17 +104,5 @@ public partial class CatalogViewModel : ObservableRecipient, INavigationAware
             category = directories[^2] ?? "";
         }
         return category;
-    }
-
-    public async void LoadBookCollection()
-    {
-        Collection.Clear();
-
-        var items = await _dataService.GetItemsAsync();
-
-        foreach (var item in items)
-        {
-            Collection.Add(item);
-        }
     }
 }

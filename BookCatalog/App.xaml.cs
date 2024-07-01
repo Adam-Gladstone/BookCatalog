@@ -1,4 +1,6 @@
-﻿using BookCatalog.Activation;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using BookCatalog.Activation;
 using BookCatalog.Contracts.Services;
 using BookCatalog.Core.Contracts.Services;
 using BookCatalog.Core.Services;
@@ -10,6 +12,8 @@ using BookCatalog.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+
+using WASDK = Microsoft.WindowsAppSDK;
 
 namespace BookCatalog;
 
@@ -71,9 +75,8 @@ public partial class App : Application
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
 
-            //services.AddTransient<CatalogViewModel>();
-            services.AddSingleton<CatalogViewModel>();
-            services.AddTransient<CatalogPage>();
+            services.AddTransient<BookCatalogViewModel>();
+            services.AddTransient<BookCatalogPage>();
 
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
@@ -99,5 +102,26 @@ public partial class App : Application
         MainRoot = MainWindow.Content as FrameworkElement;
 
         await App.GetService<IActivationService>().ActivateAsync(args);
+    }
+    public static string WinAppSdkDetails => string.Format("Windows App SDK {0}.{1}", WASDK.Release.Major, WASDK.Release.Minor);
+
+    public static string WinAppSdkRuntimeDetails
+    {
+        get
+        {
+            try
+            {
+                // Retrieve Windows App Runtime version info dynamically
+                var windowsAppRuntimeVersion =
+                    from module in Process.GetCurrentProcess().Modules.OfType<ProcessModule>()
+                    where module.FileName.EndsWith("Microsoft.WindowsAppRuntime.Insights.Resource.dll")
+                    select FileVersionInfo.GetVersionInfo(module.FileName);
+                return WinAppSdkDetails + ", Windows App Runtime " + windowsAppRuntimeVersion.First().FileVersion;
+            }
+            catch
+            {
+                return WinAppSdkDetails + $", Windows App Runtime {WASDK.Runtime.Version.Major}.{WASDK.Runtime.Version.Minor}";
+            }
+        }
     }
 }
