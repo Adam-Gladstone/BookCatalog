@@ -1,5 +1,6 @@
 Book Catalog - Project Notes
------------------------------
+-------------------------------
+
 Initial SQLite installation:
 NOTE: Support for creating the file based SQLite database: the original relied on a UWP service in Windows.Storage which is only available for packaged (?) apps (i.e. apps run from Windows Store?). Changed the target platform from net7.0-windows10.0.19.... to net6.0-windows10.0.22000.0 for all csproj files. Then added CommunityToolkit.Mvvm, CommunityToolkit.WinUI.UI.Controls, Microsoft.WindowsAppSDK references. After this, rebuild: now Windows.Storage is available, hence CreateFileAsync is available with the correct flags for creating a sqlite db.
 
