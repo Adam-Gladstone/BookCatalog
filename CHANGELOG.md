@@ -6,8 +6,6 @@
 - Work out at what level you need to catch exceptions: view (code behind) or model
 - Work out how to report the exceptions
 - The database path should be a setting. If the path+file exists, use it.
-- Consider adding a 'footer' to the list view with count
-
 
 # Changes
 ## 07/11/2023
@@ -30,3 +28,6 @@ Major refactor and update
 - Hamburger menu: single page only Book Catalog
 - Removed the DevExpress data grid and dependencies
 
+## 02/07/2024
+- Updated README.md
+- Added 'footer' with a count of items

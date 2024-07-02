@@ -30,6 +30,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="20" />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
@@ -163,6 +164,19 @@
                 </ListView.ItemTemplate>
 
             </ListView>
+
+            <StackPanel Grid.Row="2">
+                <Border
+                    Margin="0,0"
+                    Background="#43474E"
+                    CornerRadius="4">
+                    <TextBlock
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Center"
+                        Text="{x:Bind ViewModel.ItemCount, Mode=OneWay}" />
+                </Border>
+
+            </StackPanel>
 
         </Grid>
     </Grid>

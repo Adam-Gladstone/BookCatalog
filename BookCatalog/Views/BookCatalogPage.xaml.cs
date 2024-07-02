@@ -60,6 +60,8 @@ public sealed partial class BookCatalogPage : Page
                 BookInfoCVS.Source = await GetCategoryDataAsync(filter);
                 break;
         }
+
+        ViewModel.ItemCount = $"Items: {ListView.Items.Count}";
     }
 
     public async Task<ObservableCollection<GroupedList>> GetTitleDataAsync(string? filter)

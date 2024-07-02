@@ -14,6 +14,9 @@ public partial class BookCatalogViewModel : ObservableRecipient, INavigationAwar
     [ObservableProperty]
     private string filter = "";
 
+    [ObservableProperty]
+    private string itemCount;
+
     private BookItem? current;
 
     public BookItem? Current
@@ -37,7 +40,9 @@ public partial class BookCatalogViewModel : ObservableRecipient, INavigationAwar
 
     public async Task<List<BookItem>> GetDataAsync()
     {
-        return (List<BookItem>)await _dataService.GetItemsAsync();
+        var books = (List<BookItem>)await _dataService.GetItemsAsync();
+
+        return books;
     }
 
     public void OnNavigatedTo(object parameter)
