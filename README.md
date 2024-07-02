@@ -7,7 +7,7 @@
     <img src="BookCatalog/Assets/WindowIcon.ico" alt="logo" width="80" height="80">
   </a>
 
-  <h3 align="center">BookCatalog (v1.0)</h3>
+  <h3 align="center">BookCatalog (v1.1)</h3>
 
   <p align="center">
     <br />
@@ -15,7 +15,7 @@
     <br />
     <br />
     <a href="https://github.com/Adam-Gladstone/BookCatalog/issues">Report Bug</a>
-    �
+    ·
     <a href="https://github.com/Adam-Gladstone/BookCatalog/issues">Request Feature</a>
   </p>
 </div>
@@ -47,11 +47,11 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-I have around 500+ e-books (mostly `pdf`'s but also some `epub`'s). I wanted to be able to easily search for a specific title or author, as I don't always remember either exactly (e.g. "erm, I think it was about 'compilers'; maybe the author was 'Holub' or 'Aho' ..."). I have tried a number of approaches to this: Windows search, PowerShell script, and so on. None of these were really satisfactory for one reason or another. Eventually, I settled for writing a simple cataloguing application. This is it (or at least an initial version of it).
+I have around 500+ e-books (mostly `pdf`'s but also some `epub`'s). I wanted to be able to easily search for a specific title or author, as I don't always remember either exactly (e.g. *"erm, I think it was about 'compilers'; maybe the author was 'Holub' or 'Aho' ...")*. I have tried a number of approaches to this: Windows search, PowerShell script, and so on. None of these were really satisfactory for one reason or another. Eventually, I settled for writing a simple cataloguing application. This is it (or at least an initial version of it).
 
 __BookCatalog__ is a Windows desktop application that allows you to list and organise your (electronic) book collection. It is simple to add titles to the collection. Just point to a directory and add files. The application provides simple facilities to search, sort, filter and group books. Once you have found the book(s) you were looking for, you can double-click to open the file in the associated application.
 
-__BookCatalog__ is written in C# (.NET6.0) and uses WinUI and XAML for the user interface. In addition, the main view uses a [DevExpress grid control](https://docs.devexpress.com/WinUI/102040/controls/data-grid).
+__BookCatalog__ is written in C# (.NET6.0) and uses WinUI and XAML for the user interface.
 
 __BookCatalog__ demonstrates:
 - C#/WinUI and XAML for the UI
@@ -64,7 +64,6 @@ __BookCatalog__ demonstrates:
 	- MVVM architecture
 - Separate projects for the core (reusable functionality), testing, and user interface.
 - Unit testing using NUnit
-- DevExpress grid control with binding to C# (observable) collection.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -75,8 +74,8 @@ __BookCatalog__ demonstrates:
 
 The following packages are used:
 * CommunityToolkitMvvm (8.2.2)
+* CommunityToolkit.WinUI.UI.Controls (7.1.2)
 * CommunityToolkit.WinUI.UI.Controls.DataGrid (7.1.2)
-* DevExpress.WinUI (23.1.6)
 * Microsoft.Extensions.Configuration (8.0.0)
 * Microsoft.Extensions.Hosting (8.0.0)
 * Microsoft.WindowsAppSDK (1.4.23115000)
@@ -91,11 +90,10 @@ The project can be downloaded from the GitHub repository in the usual way.
 
 The solution consists of three projects:
 * BookCatalog: this contains the main application code.
-* BookCatalog.Code: this contains the core reusable code. In this case it only consists of the book model class and the database service.
+* BookCatalog.Core: this contains the core reusable code. In this case it only consists of the book model class and the database service.
 * BookCatalog.Tests.NUnit: this consists of unit tests for the core database functionality.
 
 ### Prerequisites
-[DevExpress grid control](https://docs.devexpress.com/WinUI/102040/controls/data-grid).
 
 ### Installation
 
@@ -103,23 +101,32 @@ The solution consists of three projects:
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-Build and start the application for the first time. You will be presented with an empty screen. 
+Build and start the application for the first time. You will be presented with an empty Catelog screen. 
 
 <a href="https://github.com/Adam-Gladstone/BookCatalog">
   <img src="Images/EmptyCatalog.png" alt="Initial Empty Catalog (BookCatalog)">
 </a>
 
-Expand the hamburger menu on the left-hand side, and press the Catalog item, then press 'Add'. The Open File Dialog is displayed. Navigate to the directory where the books are located. It is useful if they are organised by category as this can be used for grouping. Otherwise the titles are presented in a simple list. Select all the files to be added and press 'OK'. Wait a few seconds while the titles are being added to the database, then you are presented with a list.
+Locate and press the 'Add' button. The Open File Dialog is displayed. Navigate to the directory where the books are located. It is useful if the books are organised by a category as this can be used for grouping. Otherwise the titles are presented in a simple list. Select all the files to be added and press 'OK'. Wait a few seconds while the titles are being added to the database, then you are presented with a list.
 
 <a href="https://github.com/Adam-Gladstone/BookCatalog">
   <img src="Images/UngroupedSearch.png" alt="Ungrouped Search (BookCatalog)">
 </a>
 
-You can use the header to group, sort and filter in the usual way.
+The default is to list the books by title (alphabetically). The category button allows grouping by Category.
 
 <a href="https://github.com/Adam-Gladstone/BookCatalog">
   <img src="Images/GroupedSearch.png" alt="Grouped Search (BookCatalog)">
 </a>
+
+<p></p>
+The search bar can be used to filter the titles.
+
+<a href="https://github.com/Adam-Gladstone/BookCatalog">
+  <img src="Images/FilterTitle.png" alt="Filter (BookCatalog)">
+</a>
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

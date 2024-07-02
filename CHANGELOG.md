@@ -3,8 +3,11 @@
 # Wishlist
 - Support packaging the app
 - Improve application wide exception handling (instead of crashing)
-- Work out at what level you need to catch exceptions: view (code behaind) or model
+- Work out at what level you need to catch exceptions: view (code behind) or model
 - Work out how to report the exceptions
+- The database path should be a setting. If the path+file exists, use it.
+- Consider adding a 'footer' to the list view with count
+
 
 # Changes
 ## 07/11/2023
