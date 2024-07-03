@@ -8,7 +8,10 @@ using Microsoft.Data.Sqlite;
 namespace BookCatalog.Core.Services;
 public class SqliteDataService : IDataService
 {
-    private string dbPath = @"D:\Development\Projects\C#\BookCatalog\Database\bookCollectionData.db";
+    private const string dbFilename = "bookCollectionData.db";
+    public string DbFilename => dbFilename;
+
+    private string dbPath = "";
 
     public string DbPath
     {

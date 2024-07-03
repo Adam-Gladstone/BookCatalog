@@ -89,7 +89,7 @@
                             x:Name="ButtonDelete"
                             Click="ButtonDelete_Click"
                             Icon="Delete"
-                            IsEnabled="{x:Bind ViewModel.HasCurrent, Mode=OneWay}"
+                            IsEnabled="True"
                             Label="Delete" />
 
                     </CommandBar>
@@ -104,7 +104,7 @@
                 Grid.Row="1"
                 DoubleTapped="ListView_DoubleTapped"
                 ItemsSource="{x:Bind BookInfoCVS.View, Mode=OneWay}"
-                SelectedItem="{x:Bind ViewModel.Current, Mode=OneWay}"
+                SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
                 SelectionChanged="ListView_SelectionChanged"
                 SelectionMode="Single"
                 ShowsScrollingPlaceholders="True">

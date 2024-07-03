@@ -4,6 +4,7 @@ using BookCatalog.Activation;
 using BookCatalog.Contracts.Services;
 using BookCatalog.Core.Contracts.Services;
 using BookCatalog.Core.Services;
+using BookCatalog.Dialogs;
 using BookCatalog.Models;
 using BookCatalog.Services;
 using BookCatalog.ViewModels;
@@ -12,7 +13,7 @@ using BookCatalog.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
-
+using Microsoft.UI.Xaml.Controls;
 using WASDK = Microsoft.WindowsAppSDK;
 
 namespace BookCatalog;
@@ -61,6 +62,7 @@ public partial class App : Application
             // Services
             services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
+            services.AddSingleton<IFolderSelectorService, FolderSelectorService>();
             services.AddTransient<INavigationViewService, NavigationViewService>();
 
             services.AddSingleton<IActivationService, ActivationService>();
@@ -93,6 +95,11 @@ public partial class App : Application
     {
         // TODO: Log and handle exceptions as appropriate.
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
+
+        if (e.Exception != null)
+        {
+            Debug.WriteLine(e.Exception.ToString());
+        }
     }
 
     protected async override void OnLaunched(LaunchActivatedEventArgs args)
@@ -112,10 +119,14 @@ public partial class App : Application
             try
             {
                 // Retrieve Windows App Runtime version info dynamically
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8602 // Possible null reference argument.
                 var windowsAppRuntimeVersion =
                     from module in Process.GetCurrentProcess().Modules.OfType<ProcessModule>()
                     where module.FileName.EndsWith("Microsoft.WindowsAppRuntime.Insights.Resource.dll")
                     select FileVersionInfo.GetVersionInfo(module.FileName);
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8602 // Possible null reference argument.
                 return WinAppSdkDetails + ", Windows App Runtime " + windowsAppRuntimeVersion.First().FileVersion;
             }
             catch
@@ -123,5 +134,24 @@ public partial class App : Application
                 return WinAppSdkDetails + $", Windows App Runtime {WASDK.Runtime.Version.Major}.{WASDK.Runtime.Version.Minor}";
             }
         }
+    }
+
+    // Generic exception reporting
+    public static async void ReportException(Exception e)
+    {
+        var themeSelectorService = App.GetService<IThemeSelectorService>();
+
+        ContentDialog dialog = new()
+        {
+            XamlRoot = MainWindow.Content.XamlRoot,
+            RequestedTheme = themeSelectorService.Theme,
+            Title = "Exception Report",
+            PrimaryButtonText = "OK",
+            DefaultButton = ContentDialogButton.Primary,
+
+            Content = new ExceptionDialog(e)
+        };
+
+        _ = await dialog.ShowAsync();
     }
 }

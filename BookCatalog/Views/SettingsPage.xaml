@@ -13,12 +13,12 @@
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
     </Page.Resources>
 
-    <!-- Main Grid -->
+    <!--  Main Grid  -->
     <Grid>
-        
-        <!-- Locate all the settings cards (and expanders) inside a ScrollViewer -->
+
+        <!--  Locate all the settings cards (and expanders) inside a ScrollViewer  -->
         <ScrollViewer>
-            
+
             <StackPanel x:Name="ContentArea">
 
                 <!--  Appearance and behaviour  -->
@@ -39,9 +39,26 @@
                     </ComboBox>
                 </controls:SettingsCard>
 
-                <!--  Custom Settings  -->
-                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Collections" Margin="0,20,0,40"/>
+                <!--  Database folder  -->
+                <TextBlock
+                    x:Uid="Settings_DatabaseFolder"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Text="Database Folder" />
 
+                <StackPanel Margin="{StaticResource XSmallTopMargin}" Orientation="Horizontal">
+                    <AppBarButton
+                        Command="{x:Bind ViewModel.SetFolderCommand}"
+                        Icon="Folder"
+                        IsEnabled="True"
+                        Label="Folder" />
+
+                    <TextBlock
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind ViewModel.DatabaseFolder, Mode=OneWay}" />
+
+                </StackPanel>
 
                 <!--  About  -->
                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="About" />

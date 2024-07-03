@@ -2,10 +2,6 @@
 
 # Wishlist
 - Support packaging the app
-- Improve application wide exception handling (instead of crashing)
-- Work out at what level you need to catch exceptions: view (code behind) or model
-- Work out how to report the exceptions
-- The database path should be a setting. If the path+file exists, use it.
 
 # Changes
 ## 07/11/2023
@@ -31,3 +27,10 @@ Major refactor and update
 ## 02/07/2024
 - Updated README.md
 - Added 'footer' with a count of items
+- Add database path as a setting otherwise default to user application directory
+
+## 03/07/2024
+- Update exception handling in the view model
+- Add support for Delete item
+- Update the Exception Dialog
+

@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using BookCatalog.Dialogs;
 using BookCatalog.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -47,84 +46,11 @@ public sealed partial class BookCatalogPage : Page
         base.OnNavigatedTo(e);
 
         UpdateGroupSource(ViewModel.Filter);
+
+        ListView.SelectedIndex = 0;
     }
 
-    private async void UpdateGroupSource(string? filter)
-    {
-        switch (mGroup)
-        {
-            case Group.Title:
-                BookInfoCVS.Source = await GetTitleDataAsync(filter);
-                break;
-            case Group.Category:
-                BookInfoCVS.Source = await GetCategoryDataAsync(filter);
-                break;
-        }
-
-        ViewModel.ItemCount = $"Items: {ListView.Items.Count}";
-    }
-
-    public async Task<ObservableCollection<GroupedList>> GetTitleDataAsync(string? filter)
-    {
-        var books = await ViewModel.GetDataAsync();
-
-        IEnumerable<GroupedList> groupedList;
-
-        if (string.IsNullOrEmpty(filter))
-        {
-            groupedList = from book in books
-                          group book by book.Title[..1] into g
-                          orderby g.Key
-                          select new GroupedList(g) { Key = g.Key };
-
-        }
-        else
-        {
-            groupedList = from book in books
-                          where book.Title.Contains(filter)
-                          group book by book.Title[..1] into g
-                          orderby g.Key
-                          select new GroupedList(g) { Key = g.Key };
-        }
-
-        return new ObservableCollection<GroupedList>(groupedList);
-    }
-
-    public async Task<ObservableCollection<GroupedList>> GetCategoryDataAsync(string? filter)
-    {
-        var books = await ViewModel.GetDataAsync();
-
-        IEnumerable<GroupedList> groupedList;
-
-        if (string.IsNullOrEmpty(filter))
-        {
-            groupedList = from book in books
-                          group book by book.Category into g
-                          orderby g.Key
-                          select new GroupedList(g) { Key = g.Key };
-
-        }
-        else
-        {
-            groupedList = from book in books
-                          where book.Title.Contains(filter)
-                          group book by book.Category into g
-                          orderby g.Key
-                          select new GroupedList(g) { Key = g.Key };
-        }
-
-        return new ObservableCollection<GroupedList>(groupedList);
-    }
-
-
-    private void ListView_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
-    {
-        if (ListView.SelectedItem is Core.Models.BookItem book)
-        {
-            Debug.WriteLine($"Selected item:{book.Category}, {book.Title}");
-            ViewModel.OpenBookItem(book);
-        }
-    }
+    #region Control Handlers
 
     private void ButtonTitles_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
@@ -140,7 +66,124 @@ public sealed partial class BookCatalogPage : Page
         UpdateGroupSource(ViewModel.Filter);
     }
 
-    public async void AddBookItems()
+    private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        UpdateGroupSource(args.QueryText);
+    }
+
+    private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            UpdateGroupSource(sender.Text);
+        }
+    }
+
+    private void ButtonAdd_Click(object? sender, RoutedEventArgs? e)
+    {
+        AddBookItems();
+    }
+
+    private void ButtonDelete_Click(object? sender, RoutedEventArgs? e)
+    {
+        DeleteBookItem();
+    }
+    
+    private void ListView_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+    {
+        if (ListView.SelectedItem is Core.Models.BookItem book)
+        {
+            ViewModel.OpenBookItem(book);
+        }
+    }
+
+    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (ListView.SelectedItem is Core.Models.BookItem book)
+        {
+            ViewModel.Selected = book;
+        }
+    }
+
+    #endregion
+
+    #region Implementation
+
+    private async void UpdateGroupSource(string? filter)
+    {
+        switch (mGroup)
+        {
+            case Group.Title:
+                BookInfoCVS.Source = await GetTitleDataAsync(filter);
+                break;
+            case Group.Category:
+                BookInfoCVS.Source = await GetCategoryDataAsync(filter);
+                break;
+        }
+    }
+
+    private async Task<ObservableCollection<GroupedList>> GetTitleDataAsync(string? filter)
+    {
+        var books = await ViewModel.GetDataAsync();
+
+        UpdateItemCount(books.Count);
+
+        IEnumerable<GroupedList> groupedList;
+
+        if (string.IsNullOrEmpty(filter))
+        {
+            groupedList = from book in books
+                          group book by book.Title[..1] into g
+                          orderby g.Key
+                          select new GroupedList(g) { Key = g.Key };
+
+        }
+        else
+        {
+            groupedList = from book in books
+                          where book.Title.Contains(filter)
+                          group book by book.Title[..1] into g
+                          orderby g.Key
+                          select new GroupedList(g) { Key = g.Key };
+        }
+
+        return new ObservableCollection<GroupedList>(groupedList);
+    }
+
+    private async Task<ObservableCollection<GroupedList>> GetCategoryDataAsync(string? filter)
+    {
+        var books = await ViewModel.GetDataAsync();
+
+        UpdateItemCount(books.Count);
+
+        IEnumerable<GroupedList> groupedList;
+
+        if (string.IsNullOrEmpty(filter))
+        {
+            groupedList = from book in books
+                          group book by book.Category into g
+                          orderby g.Key
+                          select new GroupedList(g) { Key = g.Key };
+
+        }
+        else
+        {
+            groupedList = from book in books
+                          where book.Title.Contains(filter)
+                          group book by book.Category into g
+                          orderby g.Key
+                          select new GroupedList(g) { Key = g.Key };
+        }
+
+        return new ObservableCollection<GroupedList>(groupedList);
+    }
+
+    private void UpdateItemCount(int count)
+    {
+        ViewModel.ItemCount = $"Items: {count}";
+    }
+
+    private async void AddBookItems()
     {
         try
         {
@@ -168,11 +211,11 @@ public sealed partial class BookCatalogPage : Page
         }
         catch (Exception e)
         {
-            ReportException(e);
+            App.ReportException(e);
         }
     }
 
-    public void DeleteBookItem()
+    private void DeleteBookItem()
     {
         try
         {
@@ -185,49 +228,9 @@ public sealed partial class BookCatalogPage : Page
         }
         catch (Exception e)
         {
-            ReportException(e);
+            App.ReportException(e);
         }
     }
 
-    private async void ReportException(Exception e)
-    {
-        ContentDialog dialog = new()
-        {
-            XamlRoot = XamlRoot,
-            Style = App.Current.Resources["DefaultContentDialogStyle"] as Style,
-            Title = "Exception Report",
-            PrimaryButtonText = "OK",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = new ExceptionDialog(e)
-        };
-
-        _ = await dialog.ShowAsync();
-    }
-
-    private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-    {
-        UpdateGroupSource(args.QueryText);
-    }
-
-    private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-    {
-        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-        {
-            UpdateGroupSource(sender.Text);
-        }
-    }
-
-    private void ButtonAdd_Click(object? sender, RoutedEventArgs? e)
-    {
-        AddBookItems();
-    }
-
-    private void ButtonDelete_Click(object? sender, RoutedEventArgs? e)
-    {
-        DeleteBookItem();
-    }
-
-    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-    }
+    #endregion
 }

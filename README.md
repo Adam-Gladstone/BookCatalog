@@ -101,7 +101,7 @@ The solution consists of three projects:
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-Build and start the application for the first time. You will be presented with an empty Catelog screen. 
+Build and start the application for the first time. You will be presented with an empty Catalog screen. 
 
 <a href="https://github.com/Adam-Gladstone/BookCatalog">
   <img src="Images/EmptyCatalog.png" alt="Initial Empty Catalog (BookCatalog)">

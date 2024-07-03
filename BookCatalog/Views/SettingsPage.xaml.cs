@@ -91,19 +91,4 @@ public sealed partial class SettingsPage : Page
     {
         await Launcher.LaunchUriAsync(new Uri("https://github.com/Adam-Gladstone/BookCatalog/issues"));
     }
-
-    private async void ReportException(Exception e)
-    {
-        ContentDialog dialog = new()
-        {
-            XamlRoot = XamlRoot,
-            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-            Title = "Exception Report",
-            PrimaryButtonText = "OK",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = new ExceptionDialog(e)
-        };
-
-        _ = await dialog.ShowAsync();
-    }
 }

@@ -1,13 +1,13 @@
 ﻿using System.Diagnostics;
-using BookCatalog.Contracts.ViewModels;
 using BookCatalog.Core.Contracts.Services;
 using BookCatalog.Core.Models;
+using BookCatalog.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.Storage;
 
 namespace BookCatalog.ViewModels;
 
-public partial class BookCatalogViewModel : ObservableRecipient, INavigationAware
+public partial class BookCatalogViewModel : ObservableRecipient
 {
     private readonly IDataService _dataService;
 
@@ -15,88 +15,108 @@ public partial class BookCatalogViewModel : ObservableRecipient, INavigationAwar
     private string filter = "";
 
     [ObservableProperty]
-    private string itemCount;
+    private string? itemCount;
 
-    private BookItem? current;
-
-    public BookItem? Current
-    {
-        get => current;
-        set
-        {
-            SetProperty(ref current, value);
-            OnPropertyChanged(nameof(HasCurrent));
-        }
-    }
-
-    public bool HasCurrent => current is not null;
+    [ObservableProperty]
+    private BookItem? selected;
 
     public BookCatalogViewModel(IDataService dataService)
     {
         _dataService = dataService;
 
-        _dataService.InitializeDataAsync();
+        var settings = App.GetService<SettingsViewModel>();
+
+        if (!string.IsNullOrEmpty(settings.DatabaseFolder))
+        {
+            var sqliteDataService = (SqliteDataService)_dataService;
+
+            if(Directory.Exists(settings.DatabaseFolder))
+            {
+                sqliteDataService.DbPath = Path.Combine(settings.DatabaseFolder, sqliteDataService.DbFilename);
+            }
+            else
+            {
+                sqliteDataService.DbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, sqliteDataService.DbFilename);
+            }
+
+            _dataService.InitializeDataAsync();
+        }
     }
 
     public async Task<List<BookItem>> GetDataAsync()
     {
-        var books = (List<BookItem>)await _dataService.GetItemsAsync();
-
-        return books;
-    }
-
-    public void OnNavigatedTo(object parameter)
-    {
-
-    }
-
-    public void OnNavigatedFrom()
-    {
-        // Run code when the app navigates away from this page
+        return (List<BookItem>)await _dataService.GetItemsAsync();
     }
 
     public void AddBookItems(IReadOnlyList<StorageFile> files)
     {
-        foreach (var file in files)
+        try
         {
-            var entry = new BookItem()
+            foreach (var file in files)
             {
-                Category = GetCategoryFromDirectory(file),
-                Title = file.Name,
-                Path = file.Path,
-                UsageCount = 0
-            };
+                var entry = new BookItem()
+                {
+                    Category = GetCategoryFromDirectory(file),
+                    Title = file.Name,
+                    Path = file.Path,
+                    UsageCount = 0
+                };
 
-            var id = _dataService.AddItemAsync(entry).Result;
-            Debug.WriteLine($"Added item \'{entry.Title}\' with id:{id}");
+                _ = _dataService.AddItemAsync(entry).Result;
+            }
+        }
+        catch (Exception ex)
+        {
+            App.ReportException(ex);
         }
     }
 
     public void OpenBookItem(BookItem item)
     {
-        var filename = item.Path;
-        if (File.Exists(filename))
+        try
         {
-            new Process
+            var filename = item.Path;
+            if (File.Exists(filename))
             {
-                StartInfo = new ProcessStartInfo(filename)
+                new Process
                 {
-                    UseShellExecute = true
-                }
-            }.Start();
+                    StartInfo = new ProcessStartInfo(filename)
+                    {
+                        UseShellExecute = true
+                    }
+                }.Start();
+            }
+            else
+            {
+                throw new Exception($"The referenced file ({filename}) does not exist in this location.");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Debug.WriteLine($"The referenced file ({filename}) does not exist in this location.");
+            App.ReportException(ex);
         }
     }
 
     public void DeleteBookItem()
     {
-        if (Current != null)
+        try
         {
-            var id = _dataService.DeleteItemAsync(Current).Result;
-            Debug.WriteLine($"Deleted item \'{Current.Title}\' with id:{id}");
+            if (Selected != null)
+            {
+                var id = _dataService.DeleteItemAsync(Selected).Result;
+                if (id != false)
+                {
+                    Debug.WriteLine($"Deleted item \'{Selected.Title}\' with id:{id}");
+                }
+                else
+                {
+                    throw new Exception($"Unable to delete the item \'{Selected.Title}\'.");
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            App.ReportException(ex);
         }
     }
 
