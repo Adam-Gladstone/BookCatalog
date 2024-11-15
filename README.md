@@ -57,11 +57,13 @@ __BookCatalog__ demonstrates:
 - C#/WinUI and XAML for the UI
 - Local file-based database using SQLite
 - Community Toolkit features, specifically
+    - settings page (with support for light/dark themes)
 	- page navigation
 	- dependency injection
 	- flyout menus
 	- a local sqlite database
 	- MVVM architecture
+- Custom exception dialog
 - Separate projects for the core (reusable functionality), testing, and user interface.
 - Unit testing using NUnit
 
