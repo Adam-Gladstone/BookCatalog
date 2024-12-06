@@ -47,6 +47,10 @@
   <ItemGroup>
     <Folder Include="Dialogs\" />
   </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
+  </PropertyGroup>
   
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>

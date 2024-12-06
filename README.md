@@ -51,7 +51,7 @@ I have around 500+ e-books (mostly `pdf`'s but also some `epub`'s). I wanted to 
 
 __BookCatalog__ is a Windows desktop application that allows you to list and organise your (electronic) book collection. It is simple to add titles to the collection. Just point to a directory and add files. The application provides simple facilities to search, sort, filter and group books. Once you have found the book(s) you were looking for, you can double-click to open the file in the associated application.
 
-__BookCatalog__ is written in C# (.NET6.0) and uses WinUI and XAML for the user interface.
+__BookCatalog__ is written in C# (.NET8.0) and uses WinUI and XAML for the user interface.
 
 __BookCatalog__ demonstrates:
 - C#/WinUI and XAML for the UI
@@ -72,17 +72,28 @@ __BookCatalog__ demonstrates:
 ### Built With
 
 * Visual Studio 2022
-* C# (.NET6.0)
+* C# (.NET8.0)
 
 The following packages are used:
-* CommunityToolkitMvvm (8.2.2)
-* CommunityToolkit.WinUI.UI.Controls (7.1.2)
+* CommunityToolkit.Mvvm (8.3.2)
+* CommunityToolkit.WinUI.Controls.SettingsControls (8.1.240916)
+* CommunityToolkit.WinUI.Controls.Primitives (8.1.240916)
 * CommunityToolkit.WinUI.UI.Controls.DataGrid (7.1.2)
-* Microsoft.Extensions.Configuration (8.0.0)
-* Microsoft.Extensions.Hosting (8.0.0)
-* Microsoft.WindowsAppSDK (1.4.23115000)
-* Microsoft.Xaml.Behaviours.WinUI.Managed (2.0.9)
-* WinUIEx (2.3.3)
+* Microsoft.Extensions.Configuration (9.0.0)
+* Microsoft.Extensions.Hosting (9.0.0)
+* Microsoft.WindowsAppSDK (1.6.241114003)
+* Microsoft.Xaml.Behaviors.WinUI.Managed (2.0.9)
+* WinUIEx (2.5.0)
+* Dapper (2.1.35")
+* Dapper.Contrib (2.0.78)
+* Microsoft.Data.Sqlite (9.0.0)
+* Newtonsoft.Json (13.0.3)
+* Microsoft.Graphics.Win2D (1.3.0)
+* Microsoft.NET.Test.Sdk (17.12.0)
+* NUnit (4.2.2)
+* NUnit3TestAdapter (4.6.0)
+* NUnit.Analyzers (4.4.0)
+* coverlet.collector (6.0.2)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
