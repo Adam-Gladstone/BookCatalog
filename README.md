@@ -75,25 +75,25 @@ __BookCatalog__ demonstrates:
 * C# (.NET8.0)
 
 The following packages are used:
-* CommunityToolkit.Mvvm (8.3.2)
-* CommunityToolkit.WinUI.Controls.SettingsControls (8.1.240916)
-* CommunityToolkit.WinUI.Controls.Primitives (8.1.240916)
-* CommunityToolkit.WinUI.UI.Controls.DataGrid (7.1.2)
-* Microsoft.Extensions.Configuration (9.0.0)
-* Microsoft.Extensions.Hosting (9.0.0)
-* Microsoft.WindowsAppSDK (1.6.241114003)
-* Microsoft.Xaml.Behaviors.WinUI.Managed (2.0.9)
-* WinUIEx (2.5.0)
-* Dapper (2.1.35")
-* Dapper.Contrib (2.0.78)
-* Microsoft.Data.Sqlite (9.0.0)
-* Newtonsoft.Json (13.0.3)
-* Microsoft.Graphics.Win2D (1.3.0)
-* Microsoft.NET.Test.Sdk (17.12.0)
-* NUnit (4.2.2)
-* NUnit3TestAdapter (4.6.0)
-* NUnit.Analyzers (4.4.0)
-* coverlet.collector (6.0.2)
+* CommunityToolkit.Mvvm
+* CommunityToolkit.WinUI.Controls.SettingsControls
+* CommunityToolkit.WinUI.Controls.Primitives
+* CommunityToolkit.WinUI.UI.Controls.DataGrid
+* Microsoft.Extensions.Configuration
+* Microsoft.Extensions.Hosting
+* Microsoft.WindowsAppSDK
+* Microsoft.Xaml.Behaviors.WinUI.Managed
+* WinUIEx
+* Dapper
+* Dapper.Contrib
+* Microsoft.Data.Sqlite
+* Newtonsoft.Json
+* Microsoft.Graphics.Win2D
+* Microsoft.NET.Test.Sdk
+* NUnit
+* NUnit3TestAdapter
+* NUnit.Analyzers
+* coverlet.collector
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
